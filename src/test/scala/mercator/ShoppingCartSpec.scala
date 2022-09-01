@@ -10,6 +10,6 @@ class ShoppingCartSpec extends AnyFlatSpec with Matchers {
   }
 
   "Shopping Cart" should "return total price when given list of items" in {
-    ShoppingCart.checkout("Apple", "Orange", "Orange", "Apple", "Apple") shouldBe 2.30
+    ShoppingCart.checkout("Apple", "Apple", "Orange", "Apple") shouldBe 2.05
   }
 }
