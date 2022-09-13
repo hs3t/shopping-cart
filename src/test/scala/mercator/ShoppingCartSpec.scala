@@ -24,10 +24,25 @@ class ShoppingCartSpec extends AnyFlatSpec with Matchers {
   }
 
   it should "return total price when both offers applied" in {
-    ShoppingCart.checkout("Orange", "Orange", "Orange", "Apple", "Apple") shouldBe 1.10
+    ShoppingCart.checkout("Orange", "Orange", "Orange", "Apple", "Apple", "Banana") shouldBe 1.10
   }
 
-  it should "return total price when both offers applied on multiple items" in {
+  it should "return total price when both offers applied for both Apples and Banana" in {
+    ShoppingCart.checkout("Orange", "Orange", "Orange", "Apple", "Apple", "Banana", "Banana") shouldBe 1.10
+  }
+
+  it should "return total price when both offers applied when we have more Bananas in price" in {
+    ShoppingCart.checkout("Orange", "Orange", "Orange",
+      "Apple", "Apple",
+      "Banana", "Banana", "Banana", "Banana", "Banana", "Banana", "Banana", "Banana") shouldBe 1.30
+  }
+
+  it should "return total price when both offers applied when we have equal Bananas in price" in {
+    ShoppingCart.checkout("Orange", "Orange", "Orange",
+      "Apple", "Apple",
+      "Banana", "Banana", "Banana", "Banana", "Banana", "Banana") shouldBe 1.10
+  }
+    it should "return total price when both offers applied on multiple items" in {
     ShoppingCart.checkout("Orange", "Orange", "Orange", "Orange", "Apple", "Apple", "Apple") shouldBe 1.95
   }
 }
