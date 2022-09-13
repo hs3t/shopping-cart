@@ -6,9 +6,10 @@ object ShoppingCart {
 
   val itemCost: Map[Item, Double] = Map(
     "Apple" -> 0.60,
-    "Orange" -> 0.25
+    "Orange" -> 0.25,
+    "Banana" -> 0.20
   )
-  def checkout(items: Item*): Double = (buyOneOffer(items) ++ threeForTwoOffer(items)).map(itemCost).sum
+  def checkout(items: Item*): Double = (buyOneOffer(items, "Apple", "Banana") ++ threeForTwoOffer(items)).map(itemCost).sum
 
   /**
    * Buy one get one free offer on Apples
@@ -16,10 +17,19 @@ object ShoppingCart {
    * It calculates and returns number of apples by counting each pair of apples as one (dividing it by 2)
    * And in case of odd number of apples it adds one to discountedCount (remainder of 2)
    */
-  def buyOneOffer(items: Seq[Item]): Seq[String] = {
-    val count = items.count(_ == "Apple")
+  def buyOneOffer(items: Seq[Item], apple: Item, banana: Item): Seq[String] = {
+    val count = items.count(_ == apple)
     val discountedCount = count / 2 + count % 2
-    Seq.tabulate(discountedCount) {_ => "Apple"}
+    val offeredApples = Seq.tabulate(discountedCount) {_ => apple}
+
+
+    val bananaCount = items.count(_ == banana)
+    val discountedBananaCount = bananaCount / 2 + bananaCount % 2
+    val offeredBananas = Seq.tabulate(discountedBananaCount) { _ => banana }
+
+    val appleSum = offeredApples.map((itemCost)).sum
+    val bananaSum = offeredBananas.map((itemCost)).sum
+    if(appleSum > bananaSum) offeredApples else offeredBananas
   }
 
   /**
